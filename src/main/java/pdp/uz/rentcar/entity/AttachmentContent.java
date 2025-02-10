@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "attachment_content")
 public class AttachmentContent {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
