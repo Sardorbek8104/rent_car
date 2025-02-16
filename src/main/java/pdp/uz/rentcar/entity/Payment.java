@@ -20,11 +20,13 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @ManyToOne
+    private User user;
+    @OneToOne
+    private Booking booking;
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
     private double amount;
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
-
-
 }

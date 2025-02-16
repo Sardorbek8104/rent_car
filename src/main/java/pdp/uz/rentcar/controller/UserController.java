@@ -1,5 +1,6 @@
 package pdp.uz.rentcar.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,11 +11,12 @@ import pdp.uz.rentcar.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
     @PostMapping("/create")
     private User create(@RequestBody User user) {
         return userService.create(user);
     }
+
 }
