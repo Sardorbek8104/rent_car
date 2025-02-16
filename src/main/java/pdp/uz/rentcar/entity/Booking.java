@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pdp.uz.rentcar.entity.enums.BookingStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "booking")
-public class Booking {
+public class Booking { // Buyurtma berish
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -23,8 +24,10 @@ public class Booking {
     private User user;
     @OneToOne
     private Car car;
-    private double price;
+    private double totalPrice;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime created;
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status;
 }

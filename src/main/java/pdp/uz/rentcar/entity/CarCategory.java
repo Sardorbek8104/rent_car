@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -14,16 +13,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "review")
-public class Review {
+@Table(name = "car-category")
+public class CarCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @ManyToOne
-    private User user;
-    @ManyToOne
-    private Car car;
-    private int rating;
-    private String comment;
-    private LocalDateTime created;
+    private String name;
 }

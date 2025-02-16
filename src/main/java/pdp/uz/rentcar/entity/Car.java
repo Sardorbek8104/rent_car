@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pdp.uz.rentcar.entity.enums.CarStatus;
 
 import java.util.UUID;
 
@@ -22,11 +23,15 @@ public class Car {
     private String model;
     private String carNumber;
     private String color;
-    private String transmission;
-    private String mileage;
-    private int seats;
+    private String transmission; // automat yoki mexanik
+    private String mileage; // Bosib otgan yo'li
+    private int seats; // o'rindiqlar soni
     private String year;
+    private double pricePerDay;
     @OneToOne
     private Attachment attachment;
-
+    @Enumerated(EnumType.STRING)
+    private CarStatus status;
+    @ManyToOne
+    private CarCategory carCategory;
 }
