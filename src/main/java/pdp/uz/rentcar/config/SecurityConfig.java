@@ -22,7 +22,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String[] WHITELIST = {
         "/api/v1/user/create",
-        "/api/v1/token/**"
+        "/api/v1/token/**",
+            "/api/v1/rent-car/car-category/**",
+            "/api/v1/rent-car/cars/**"
     };
 
     @Bean

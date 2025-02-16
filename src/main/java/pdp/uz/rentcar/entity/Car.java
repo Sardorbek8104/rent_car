@@ -1,10 +1,7 @@
 package pdp.uz.rentcar.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pdp.uz.rentcar.entity.enums.CarStatus;
 
 import java.util.UUID;
@@ -15,6 +12,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "car")
+@Builder
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
