@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.controller.carCategory.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

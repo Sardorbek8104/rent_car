@@ -24,7 +24,10 @@ public class SecurityConfig {
         "/api/v1/user/create",
         "/api/v1/token/**",
             "/api/v1/rent-car/car-category/**",
-            "/api/v1/rent-car/cars/**"
+            "/api/v1/rent-car/cars/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html"
     };
 
     @Bean

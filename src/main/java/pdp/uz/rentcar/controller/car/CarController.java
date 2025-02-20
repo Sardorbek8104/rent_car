@@ -1,11 +1,11 @@
-package pdp.uz.rentcar.controller;
+package pdp.uz.rentcar.controller.car;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import pdp.uz.rentcar.controller.dto.CarRequest;
-import pdp.uz.rentcar.controller.dto.CarResponse;
+import pdp.uz.rentcar.controller.car.dto.CarRequest;
+import pdp.uz.rentcar.controller.car.dto.CarResponse;
 import pdp.uz.rentcar.service.CarService;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/rent-car/cars")
+@RequestMapping("api/v1/rent-car/cars")
 public class CarController {
     private final CarService carService;
     private final ObjectMapper objectMapper;

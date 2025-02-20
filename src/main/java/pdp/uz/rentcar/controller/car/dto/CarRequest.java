@@ -1,19 +1,16 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.controller.car.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import pdp.uz.rentcar.entity.enums.CarStatus;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
-public class CarResponse {
-    private UUID id;
+public class CarRequest {
     private String name;
     private String model;
     private String carNumber;
@@ -24,7 +21,5 @@ public class CarResponse {
     private String year;
     private double pricePerDay;
     private UUID carCategoryId;
-    private String carCategoryName;
-    private UUID attachmentId;
-    private CarStatus status;
+    private MultipartFile file;
 }
