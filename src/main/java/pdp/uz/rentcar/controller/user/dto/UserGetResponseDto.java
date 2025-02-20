@@ -1,14 +1,13 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.controller.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserGetResponseDto {
     private int userId;
     private String name;

@@ -12,7 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pdp.uz.rentcar.service.JwtService;
+import pdp.uz.rentcar.service.jwt.JwtService;
 
 import java.io.IOException;
 import java.util.List;

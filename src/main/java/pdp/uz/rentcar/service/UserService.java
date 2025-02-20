@@ -2,20 +2,20 @@ package pdp.uz.rentcar.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import pdp.uz.rentcar.controller.dto.JwtResponseDto;
+import pdp.uz.rentcar.controller.user.dto.loginDto.UserLoginResponseDto;
 import pdp.uz.rentcar.entity.Role;
 import pdp.uz.rentcar.entity.User;
 import pdp.uz.rentcar.entity.enums.UserRole;
 import pdp.uz.rentcar.repository.RoleRepository;
 import pdp.uz.rentcar.repository.UserRepository;
+import pdp.uz.rentcar.service.jwt.JwtService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -38,9 +38,9 @@ public class UserService {
         return roleRepository.findByRoles(UserRole.USER);
     }
 
-    public JwtResponseDto login(String username, String password) throws JsonProcessingException {
-        Optional<User> optionalUser =
-                userRepository.findByUsername(username);
+    public UserLoginResponseDto login(String username, String password) throws JsonProcessingException {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
@@ -49,12 +49,12 @@ public class UserService {
         if (!matches) {
             throw new UsernameNotFoundException(username);
         }
-
         String accessToken = jwtService.generateAccessToken(userEntity);
         String refreshToken = jwtService.generateRefreshToken(userEntity);
-        return new JwtResponseDto("Bearer " + accessToken, refreshToken);
+        return new UserLoginResponseDto("Bearer " + accessToken, refreshToken);
     }
-    public User getUserById(int userId) {
+
+    public User getUserById(UUID userId) {
         Optional<User> optionalUserEntity = userRepository.findById(userId);
         if (optionalUserEntity.isEmpty()) {
             throw new IllegalStateException(String.format("User with id %s not found", userId));

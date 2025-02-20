@@ -3,7 +3,6 @@ package pdp.uz.rentcar.entity.enums;
 public enum CarStatus {
     AVAILABLE, // Mavjud
     RENTED,    // Band qilingan
-    IN_SERVICE // Ta’mirda
+    IN_SERVICE, // Ta’mirda
     RESERVED, // bron qilingan
-    AVAILABLE; // bo'sh
 }

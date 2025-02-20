@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.service;
+package pdp.uz.rentcar.service.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.jsonwebtoken.*;
