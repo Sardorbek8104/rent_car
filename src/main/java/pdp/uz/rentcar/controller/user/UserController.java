@@ -6,9 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import pdp.uz.rentcar.controller.user.converter.UserConverter;
 import pdp.uz.rentcar.controller.user.dto.UserCreateRequestDto;
 import pdp.uz.rentcar.controller.user.dto.UserCreateResponseDto;
-import pdp.uz.rentcar.controller.user.dto.loginDto.UserLoginResponseDto;
 import pdp.uz.rentcar.controller.user.dto.loginDto.UserLoginRequestDto;
-import pdp.uz.rentcar.entity.User;
+import pdp.uz.rentcar.controller.user.dto.loginDto.UserLoginResponseDto;
 import pdp.uz.rentcar.service.UserService;
 
 import java.util.UUID;
@@ -33,5 +32,8 @@ public class UserController {
     public UserCreateResponseDto getUser(@PathVariable UUID id) {
         return UserConverter.toDto(userService.getUserById(id));
     }
+
+
+
 
 }
