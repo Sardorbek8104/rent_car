@@ -34,13 +34,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
+
     private Role getUserRole() {
         return roleRepository.findByRoles(UserRole.USER);
     }
 
     public UserLoginResponseDto login(String username, String password) throws JsonProcessingException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
-
+        System.out.println(optionalUser.isPresent());
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
@@ -61,4 +62,5 @@ public class UserService {
         }
         return optionalUserEntity.get();
     }
+
 }
