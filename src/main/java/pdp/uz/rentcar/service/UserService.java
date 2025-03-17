@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,13 +26,11 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final JwtService jwtService;
 
-
     public User create(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(List.of(getUserRole()));
         return userRepository.save(user);
     }
-
 
     private Role getUserRole() {
         return roleRepository.findByRoles(UserRole.USER);

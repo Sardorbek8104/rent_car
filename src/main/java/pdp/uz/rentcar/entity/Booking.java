@@ -10,6 +10,7 @@ import pdp.uz.rentcar.entity.enums.BookingStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,9 +21,9 @@ public class Booking { // Buyurtma berish
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToOne
+    @ManyToOne
     private User user;
-    @OneToOne
+    @ManyToOne
     private Car car;
     private double totalPrice;
     private LocalDateTime startTime;
