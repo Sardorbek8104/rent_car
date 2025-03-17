@@ -10,7 +10,6 @@ import pdp.uz.rentcar.entity.enums.NotificationStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
