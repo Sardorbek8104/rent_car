@@ -1,6 +1,7 @@
 package pdp.uz.rentcar.controller.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pdp.uz.rentcar.controller.user.converter.UserConverter;
@@ -17,13 +18,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
     @PostMapping("/create")
-    private UserCreateResponseDto create(@RequestBody UserCreateRequestDto requestDto) {
+    private UserCreateResponseDto create(@RequestBody @Valid UserCreateRequestDto requestDto) {
+
         return UserConverter.toDto(userService.create(UserConverter.toEntity(requestDto)));
     }
 
     @PostMapping("/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto request)
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request)
             throws JsonProcessingException {
         return userService.login(request.getUsername(), request.getPassword());
     }
@@ -32,8 +35,6 @@ public class UserController {
     public UserCreateResponseDto getUser(@PathVariable UUID id) {
         return UserConverter.toDto(userService.getUserById(id));
     }
-
-
 
 
 }

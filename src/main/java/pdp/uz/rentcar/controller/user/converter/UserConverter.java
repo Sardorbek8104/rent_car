@@ -17,6 +17,7 @@ public class UserConverter {
         user.setProvider(AuthProvider.LOCAL);
         return user;
     }
+
     public static UserCreateResponseDto toDto(User user) {
         UserCreateResponseDto dto = new UserCreateResponseDto();
         dto.setId(user.getId());
