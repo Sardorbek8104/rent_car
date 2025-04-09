@@ -2,10 +2,8 @@ package pdp.uz.rentcar.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import pdp.uz.rentcar.controller.dto.JwtResponseDto;
 import pdp.uz.rentcar.entity.Role;
