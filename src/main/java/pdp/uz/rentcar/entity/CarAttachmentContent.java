@@ -13,10 +13,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "car-category")
-public class CarCategory {
+@Table(name = "attachment_content")
+public class CarAttachmentContent {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String name;
+    private byte[] content;
 }

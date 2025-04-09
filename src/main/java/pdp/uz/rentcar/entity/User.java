@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pdp.uz.rentcar.entity.enums.AuthProvider;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,9 +25,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    private String firstName;
+    private String lastName;
+    private String email;
     private String username;
     private String password;
     private String phoneNumber;
+    @Enumerated(EnumType.STRING)
+    private AuthProvider provider;
     @ManyToMany
     private List<Role> roles;
 

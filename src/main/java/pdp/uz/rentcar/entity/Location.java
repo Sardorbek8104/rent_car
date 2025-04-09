@@ -13,14 +13,12 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "attachment")
-public class Attachment {
+@Table(name = "location")
+public class Location {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    private String filename;
-    private String fileType;
-    private long fileSize;
-    @OneToOne
-    private AttachmentContent content;
+    private String city;
+
 }

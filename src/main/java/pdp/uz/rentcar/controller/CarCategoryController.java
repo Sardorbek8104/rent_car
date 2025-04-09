@@ -2,8 +2,8 @@ package pdp.uz.rentcar.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pdp.uz.rentcar.controller.dto.CarCategoryRequest;
-import pdp.uz.rentcar.controller.dto.CarCategoryResponse;
+import pdp.uz.rentcar.dtos.carCategory.request.CarCategoryRequest;
+import pdp.uz.rentcar.dtos.carCategory.response.CarCategoryResponse;
 import pdp.uz.rentcar.service.CarCategoryService;
 
 import java.util.List;

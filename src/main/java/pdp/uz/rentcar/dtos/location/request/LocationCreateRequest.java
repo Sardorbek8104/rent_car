@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.dtos.location.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CarCategoryRequest {
-    private String name;
+public class LocationCreateRequest {
+    private String location;
 }

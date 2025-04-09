@@ -5,5 +5,5 @@ public enum CarStatus {
     RENTED,    // Band qilingan
     IN_SERVICE, // Ta’mirda
     RESERVED, // bron qilingan
-    FREE // bo'sh
+    FREE 
 }

@@ -20,11 +20,15 @@ import pdp.uz.rentcar.filter.JwtAuthenticationFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private static final String[] WHITELIST = {
-        "/api/v1/user/create",
+        "/api/v1/user/**",
         "/api/v1/token/**",
             "/api/v1/rent-car/car-category/**",
-            "/api/v1/rent-car/cars/**"
+            "/api/v1/rent-car/cars/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
+            "/swagger-ui.html"
     };
 
     @Bean
@@ -34,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(WHITELIST).permitAll()
                         .anyRequest()
                         .authenticated())
+//                .oauth2Login(login -> login.successHandler(oAuth2SuccessHandler))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -45,4 +50,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }

@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.dtos.location.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CarCategoryResponse {
+public class LocationCreateResponse {
+
     private UUID id;
-    private String name;
+    private String location;
 }

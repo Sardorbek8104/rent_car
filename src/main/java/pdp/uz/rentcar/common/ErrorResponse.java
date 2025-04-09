@@ -1,16 +1,17 @@
-package pdp.uz.rentcar.controller.dto;
+package pdp.uz.rentcar.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
-public class UserGetResponseDto {
-    private int userId;
-    private String name;
-    private String phone;
+public class ErrorResponse {
+    private String message;
+    private List<ErrorResponseField> fields;
 }
