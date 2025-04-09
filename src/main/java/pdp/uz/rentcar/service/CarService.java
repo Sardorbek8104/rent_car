@@ -4,18 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import pdp.uz.rentcar.controller.car.dto.CarRequest;
-import pdp.uz.rentcar.controller.car.dto.CarResponse;
-import pdp.uz.rentcar.entity.Attachment;
-import pdp.uz.rentcar.entity.AttachmentContent;
-import pdp.uz.rentcar.entity.Car;
-import pdp.uz.rentcar.entity.CarCategory;
+import pdp.uz.rentcar.dtos.car.request.CarCreateRequest;
+import pdp.uz.rentcar.dtos.car.response.CarCreateResponse;
+import pdp.uz.rentcar.entity.*;
 import pdp.uz.rentcar.entity.enums.CarStatus;
 import pdp.uz.rentcar.exception.RecordNotFoundException;
-import pdp.uz.rentcar.repository.AttachmentContentRepository;
-import pdp.uz.rentcar.repository.AttachmentRepository;
-import pdp.uz.rentcar.repository.CarCategoryRepository;
-import pdp.uz.rentcar.repository.CarRepository;
+import pdp.uz.rentcar.repository.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,14 +23,20 @@ public class CarService {
     private final CarCategoryRepository carCategoryRepository;
     private final AttachmentRepository attachmentRepository;
     private final AttachmentContentRepository attachmentContentRepository;
+    private final LocationRepository locationRepository;
     private final ModelMapper modelMapper;
 
-    public CarResponse createCar(CarRequest carRequest) throws IOException {
+    public CarCreateResponse createCar(CarCreateRequest carRequest) throws IOException {
         Optional<CarCategory> byId = carCategoryRepository.findById(carRequest.getCarCategoryId());
         if (byId.isEmpty()) {
             throw new RecordNotFoundException("Car Category Not Found");
         }
         CarCategory carCategory = byId.get();
+        Optional<Location> optionalLocation = locationRepository.findById(carRequest.getLocationId());
+        if (optionalLocation.isEmpty()) {
+            throw new RecordNotFoundException("Location Not Found");
+        }
+        Location location = optionalLocation.get();
         Car car = Car.builder()
                 .carNumber(carRequest.getCarNumber())
                 .model(carRequest.getModel())
@@ -48,15 +48,16 @@ public class CarService {
                 .pricePerDay(carRequest.getPricePerDay())
                 .transmission(carRequest.getTransmission())
                 .name(carRequest.getName())
+                .location(location)
                 .build();
 
         car.setStatus(CarStatus.AVAILABLE);
         MultipartFile file = carRequest.getFile();
         if (file != null) {
-            AttachmentContent attachmentContent = new AttachmentContent();
+            CarAttachmentContent attachmentContent = new CarAttachmentContent();
             attachmentContent.setContent(file.getBytes());
             attachmentContentRepository.save(attachmentContent);
-            Attachment attachment = new Attachment();
+            CarAttachment attachment = new CarAttachment();
             attachment.setContent(attachmentContent);
             attachment.setFilename(file.getOriginalFilename());
             attachment.setFileType(file.getContentType());
@@ -67,7 +68,7 @@ public class CarService {
         }
         Car save = carRepository.save(car);
 
-        return CarResponse.builder()
+        return CarCreateResponse.builder()
                 .id(save.getId())
                 .name(save.getName())
                 .color(save.getColor())
@@ -85,14 +86,14 @@ public class CarService {
                 .build();
     }
 
-    public List<CarResponse> findAllCars() {
+    public List<CarCreateResponse> findAllCars() {
         List<Car> all = carRepository.findAll();
-        return all.stream().map(car -> modelMapper.map(car, CarResponse.class)).toList();
+        return all.stream().map(car -> modelMapper.map(car, CarCreateResponse.class)).toList();
     }
 
-    public CarResponse getCarById(UUID id) {
+    public CarCreateResponse getCarById(UUID id) {
         Car carNotFound = carRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Car Not Found"));
-        return modelMapper.map(carNotFound, CarResponse.class);
+        return modelMapper.map(carNotFound, CarCreateResponse.class);
     }
 
     public void deleteCarById(UUID id) {
