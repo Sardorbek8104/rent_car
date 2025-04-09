@@ -27,9 +27,11 @@ public class Car {
     private String year;
     private double pricePerDay;
     @OneToOne
-    private Attachment attachment;
+    private CarAttachment attachment;
     @Enumerated(EnumType.STRING)
     private CarStatus status;
     @ManyToOne
     private CarCategory carCategory;
+    @ManyToOne
+    private Location location;
 }

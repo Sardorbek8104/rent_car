@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pdp.uz.rentcar.controller.user.dto.loginDto.UserLoginResponseDto;
+import pdp.uz.rentcar.dtos.user.response.UserLoginResponse;
 import pdp.uz.rentcar.entity.Role;
 import pdp.uz.rentcar.entity.User;
 import pdp.uz.rentcar.entity.enums.UserRole;
@@ -36,7 +36,7 @@ public class UserService {
         return roleRepository.findByRoles(UserRole.USER);
     }
 
-    public UserLoginResponseDto login(String username, String password) throws JsonProcessingException {
+    public UserLoginResponse login(String username, String password) throws JsonProcessingException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         System.out.println(optionalUser.isPresent());
         if (optionalUser.isEmpty()) {
@@ -49,7 +49,7 @@ public class UserService {
         }
         String accessToken = jwtService.generateAccessToken(userEntity);
         String refreshToken = jwtService.generateRefreshToken(userEntity);
-        return new UserLoginResponseDto("Bearer " + accessToken, refreshToken);
+        return new UserLoginResponse("Bearer " + accessToken, refreshToken);
     }
 
     public User getUserById(UUID userId) {
