@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.dtos.user.response;
+package pdp.uz.rentcar.dtos.auth.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserLoginResponse {
+public class LoginResponse {
     private String accessToken;
     private String refreshToken;
 
-    public UserLoginResponse(String accessToken) {
+    public LoginResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 }

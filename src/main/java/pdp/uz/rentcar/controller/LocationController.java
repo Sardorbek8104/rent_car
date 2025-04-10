@@ -1,12 +1,13 @@
 package pdp.uz.rentcar.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pdp.uz.rentcar.dtos.location.request.LocationCreateRequest;
+import pdp.uz.rentcar.dtos.location.request.LocationDeleteRequest;
+import pdp.uz.rentcar.dtos.location.request.LocationUpdateRequest;
 import pdp.uz.rentcar.dtos.location.response.LocationCreateResponse;
+import pdp.uz.rentcar.dtos.location.response.LocationDeleteResponse;
+import pdp.uz.rentcar.dtos.location.response.LocationUpdateResponse;
 import pdp.uz.rentcar.service.LocationService;
 
 @RestController
@@ -19,5 +20,15 @@ public class LocationController {
     @PostMapping("/create")
     private LocationCreateResponse create(@RequestBody LocationCreateRequest request) {
         return locationService.create(request);
+    }
+
+    @DeleteMapping("/delete")
+    private LocationDeleteResponse delete(@RequestBody LocationDeleteRequest request) {
+        return locationService.delete(request);
+    }
+
+    @PutMapping("/update")
+    private LocationUpdateResponse update(@RequestBody LocationUpdateRequest request) {
+        return locationService.update(request);
     }
 }

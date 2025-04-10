@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/rent-car/car-category")
+@RequestMapping("/api/v1/car-category")
 public class CarCategoryController {
     private final CarCategoryService carCategoryService;
 
