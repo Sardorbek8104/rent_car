@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/rent-car/cars")
+@RequestMapping("api/v1/cars")
 public class CarController {
     private final CarService carService;
     private final ObjectMapper objectMapper;

@@ -1,4 +1,4 @@
-package pdp.uz.rentcar.dtos.user.request;
+package pdp.uz.rentcar.dtos.auth.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
