@@ -23,6 +23,7 @@ public class SecurityConfig {
     private static final String[] WHITELIST = {
         "/api/v1/user/**",
         "/api/v1/token/**",
+            "api/v1/auth/**",
             "/api/v1/rent-car/car-category/**",
             "/api/v1/rent-car/cars/**",
             "/swagger-ui/**",

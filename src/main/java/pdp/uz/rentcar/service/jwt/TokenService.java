@@ -8,10 +8,7 @@ import pdp.uz.rentcar.dtos.auth.request.RefreshTokenRequest;
 import pdp.uz.rentcar.entity.User;
 import pdp.uz.rentcar.repository.UserRepository;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
