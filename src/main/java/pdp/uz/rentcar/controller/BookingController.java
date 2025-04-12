@@ -1,7 +1,6 @@
 package pdp.uz.rentcar.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +18,6 @@ public class BookingController {
 
     @PostMapping("/create")
     public BookingResponse create(@RequestBody BookingCreateRequest request) {
-
+        return bookingService.create(request);
     }
 }
