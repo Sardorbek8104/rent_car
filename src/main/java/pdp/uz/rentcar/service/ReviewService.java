@@ -12,6 +12,7 @@ import pdp.uz.rentcar.repository.ReviewRepository;
 import pdp.uz.rentcar.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -46,7 +47,7 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.findAll();
 
         if (reviews.isEmpty()) {
-            throw new RuntimeException("No reviews available");
+            return new ArrayList<>();
         }
 
         return reviews.stream()

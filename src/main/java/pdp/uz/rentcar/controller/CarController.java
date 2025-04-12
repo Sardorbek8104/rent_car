@@ -1,7 +1,12 @@
 package pdp.uz.rentcar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pdp.uz.rentcar.dtos.car.request.CarCreateRequest;
@@ -18,7 +23,7 @@ public class CarController {
     private final CarService carService;
     private final ObjectMapper objectMapper;
 
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CarCreateResponse createCar(@RequestParam("car") String carJson,
                                        @RequestParam(value = "file", required = false) MultipartFile file) {
         try {
@@ -30,7 +35,7 @@ public class CarController {
         }
     }
 
-    @GetMapping("/{id}/car")
+    @GetMapping("/car/{id}")
     public CarCreateResponse getCarById(@PathVariable UUID id) {
         return carService.getCarById(id);
     }
@@ -40,9 +45,22 @@ public class CarController {
         return carService.findAllCars();
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/delete/{id}")
     public void deleteCarById(@PathVariable UUID id) {
         carService.deleteCarById(id);
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CarCreateResponse>> searchCars(
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) Integer year
+    ) {
+        List<CarCreateResponse> result = carService.searchCars(model, minPrice, maxPrice, year);
+        return ResponseEntity.ok(result);
+    }
+
 
 }

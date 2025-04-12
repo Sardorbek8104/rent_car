@@ -12,9 +12,13 @@ import pdp.uz.rentcar.exception.RecordNotFoundException;
 import pdp.uz.rentcar.repository.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
+import jakarta.persistence.criteria.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -68,7 +72,43 @@ public class CarService {
         }
         Car save = carRepository.save(car);
 
-        return CarCreateResponse.builder()
+        return convertToDto(save);
+    }
+
+    public List<CarCreateResponse> findAllCars() {
+        List<Car> all = carRepository.findAll();
+        return all.stream().map(car -> modelMapper.map(car, CarCreateResponse.class)).toList();
+    }
+
+    public CarCreateResponse getCarById(UUID id) {
+        Car carNotFound = carRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Car Not Found"));
+        return modelMapper.map(carNotFound, CarCreateResponse.class);
+    }
+    public List<CarCreateResponse> searchCars(String model, Double minPrice, Double maxPrice, Integer year) {
+        List<Car> cars = carRepository.findAll((root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            if (model != null && !model.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("model")), "%" + model.toLowerCase() + "%"));
+            }
+            if (minPrice != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+            }
+            if (maxPrice != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+            }
+            if (year != null) {
+                predicates.add(cb.equal(root.get("year"), year));
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        });
+
+        return cars.stream().map(this::convertToDto).collect(Collectors.toList());
+    }
+
+    private CarCreateResponse convertToDto(Car save) {
+       return CarCreateResponse.builder()
                 .id(save.getId())
                 .name(save.getName())
                 .color(save.getColor())
@@ -86,15 +126,6 @@ public class CarService {
                 .build();
     }
 
-    public List<CarCreateResponse> findAllCars() {
-        List<Car> all = carRepository.findAll();
-        return all.stream().map(car -> modelMapper.map(car, CarCreateResponse.class)).toList();
-    }
-
-    public CarCreateResponse getCarById(UUID id) {
-        Car carNotFound = carRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Car Not Found"));
-        return modelMapper.map(carNotFound, CarCreateResponse.class);
-    }
 
     public void deleteCarById(UUID id) {
         carRepository.deleteById(id);

@@ -28,7 +28,6 @@ public class AuthService {
 
     public LoginResponse login(String username, String password) throws JsonProcessingException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
-        System.out.println(optionalUser.isPresent());
         if (optionalUser.isEmpty()) {
             throw new UsernameNotFoundException(username);
         }
