@@ -21,13 +21,13 @@ import pdp.uz.rentcar.filter.JwtAuthenticationFilter;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String[] WHITELIST = {
-        "/api/v1/user/**",
-        "/api/v1/token/**",
-            "api/v1/auth/**",
-            "/api/v1/rent-car/car-category/**",
-            "/api/v1/rent-car/cars/**",
-            "/swagger-ui/**",
+            "/api/v1/user/**",
+            "/api/v1/auth/**",
+            "/api/v1/token/**",
+            "/api/v1/car-category/**",
+            "/api/v1/cars/**",
             "/v3/api-docs/**",
+            "/swagger-ui/**",
             "/swagger-ui.html"
     };
 

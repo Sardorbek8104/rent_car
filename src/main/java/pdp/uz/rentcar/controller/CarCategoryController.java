@@ -3,6 +3,7 @@ package pdp.uz.rentcar.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pdp.uz.rentcar.dtos.carCategory.request.CarCategoryRequest;
+import pdp.uz.rentcar.dtos.carCategory.request.CarCategoryUpdateRequest;
 import pdp.uz.rentcar.dtos.carCategory.response.CarCategoryResponse;
 import pdp.uz.rentcar.service.CarCategoryService;
 
@@ -25,8 +26,17 @@ public class CarCategoryController {
         return carCategoryService.getCarCategories();
     }
 
-    @PostMapping("/{id}/car-category")
+    @PostMapping("/car-category/{id}")
    public CarCategoryResponse getCarCategoryById(@PathVariable UUID id) {
       return carCategoryService.getCarCategoryById(id);
+   }
+   @DeleteMapping("/delete/{id}")
+   public boolean deleteCarCategoryById(@PathVariable UUID id) {
+        return carCategoryService.deleteCarCategoryById(id);
+   }
+
+   @PutMapping("/update")
+   private CarCategoryResponse update(@RequestBody CarCategoryUpdateRequest carCategoryUpdateRequest) {
+      return   carCategoryService.update(carCategoryUpdateRequest);
    }
 }

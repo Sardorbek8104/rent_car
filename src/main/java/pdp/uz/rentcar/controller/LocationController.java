@@ -7,8 +7,11 @@ import pdp.uz.rentcar.dtos.location.request.LocationDeleteRequest;
 import pdp.uz.rentcar.dtos.location.request.LocationUpdateRequest;
 import pdp.uz.rentcar.dtos.location.response.LocationCreateResponse;
 import pdp.uz.rentcar.dtos.location.response.LocationDeleteResponse;
+import pdp.uz.rentcar.dtos.location.response.LocationResponse;
 import pdp.uz.rentcar.dtos.location.response.LocationUpdateResponse;
 import pdp.uz.rentcar.service.LocationService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,4 +34,11 @@ public class LocationController {
     private LocationUpdateResponse update(@RequestBody LocationUpdateRequest request) {
         return locationService.update(request);
     }
+
+    @GetMapping("/locations")
+    public List<LocationResponse> getAll() {
+        return locationService.getAll();
+    }
 }
+
+

@@ -1,7 +1,7 @@
 package pdp.uz.rentcar.mapper;
 
 import pdp.uz.rentcar.dtos.user.request.UserCreateRequest;
-import pdp.uz.rentcar.dtos.user.response.UserCreateResponse;
+import pdp.uz.rentcar.dtos.user.response.UserResponse;
 import pdp.uz.rentcar.entity.User;
 import pdp.uz.rentcar.entity.enums.AuthProvider;
 
@@ -18,8 +18,8 @@ public class UserConverter {
         return user;
     }
 
-    public static UserCreateResponse toDto(User user) {
-        UserCreateResponse dto = new UserCreateResponse();
+    public static UserResponse toDto(User user) {
+        UserResponse dto = new UserResponse();
         dto.setId(user.getId());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pdp.uz.rentcar.dtos.carCategory.request.CarCategoryRequest;
+import pdp.uz.rentcar.dtos.carCategory.request.CarCategoryUpdateRequest;
 import pdp.uz.rentcar.dtos.carCategory.response.CarCategoryResponse;
 import pdp.uz.rentcar.entity.CarCategory;
 import pdp.uz.rentcar.exception.RecordNotFoundException;
@@ -36,6 +37,26 @@ public class CarCategoryService {
     public List<CarCategoryResponse> getCarCategories() {
         List<CarCategory> carCategories = carCategoryRepository.findAll();
        return carCategories.stream().map(carCategory -> modelMapper.map( carCategory, CarCategoryResponse.class)).toList();
+    }
+
+    public boolean deleteCarCategoryById(UUID id) {
+        Optional<CarCategory> carCategory = carCategoryRepository.findById(id);
+        if (carCategory.isEmpty()){
+            throw new RecordNotFoundException("Car Category Not Found");
+        }
+        carCategoryRepository.deleteById(id);
+        return true;
+    }
+
+    public CarCategoryResponse update(CarCategoryUpdateRequest carCategoryUpdateRequest) {
+        Optional<CarCategory> carCategory = carCategoryRepository.findById(carCategoryUpdateRequest.getId());
+        if (carCategory.isEmpty()){
+            throw new RecordNotFoundException("Car Category Not Found");
+        }
+        CarCategory category = carCategory.get();
+        category.setName(carCategoryUpdateRequest.getName());
+        carCategoryRepository.save(category);
+        return modelMapper.map(carCategoryUpdateRequest, CarCategoryResponse.class);
     }
 
 }
