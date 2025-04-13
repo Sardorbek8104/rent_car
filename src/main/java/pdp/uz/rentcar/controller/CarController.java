@@ -50,15 +50,20 @@ public class CarController {
         carService.deleteCarById(id);
     }
 
-
     @GetMapping("/search")
     public ResponseEntity<List<CarCreateResponse>> searchCars(
             @RequestParam(required = false) String model,
+            @RequestParam(required = false) String name,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String transmission,
+            @RequestParam(required = false) Integer seats,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) Integer year
     ) {
-        List<CarCreateResponse> result = carService.searchCars(model, minPrice, maxPrice, year);
+        List<CarCreateResponse> result = carService.searchCars(
+                model, name, minPrice, maxPrice, location, transmission, seats, category, year);
         return ResponseEntity.ok(result);
     }
 
