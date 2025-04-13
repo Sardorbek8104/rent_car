@@ -84,21 +84,38 @@ public class CarService {
         Car carNotFound = carRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Car Not Found"));
         return modelMapper.map(carNotFound, CarCreateResponse.class);
     }
-    public List<CarCreateResponse> searchCars(String model, Double minPrice, Double maxPrice, Integer year) {
+    public List<CarCreateResponse> searchCars(String model, String name, Double minPrice, Double maxPrice,
+                                              String location, String transmission, Integer seats,
+                                              String category, Integer year) {
         List<Car> cars = carRepository.findAll((root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (model != null && !model.isEmpty()) {
                 predicates.add(cb.like(cb.lower(root.get("model")), "%" + model.toLowerCase() + "%"));
             }
+            if (name != null && !name.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+            }
             if (minPrice != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("pricePerDay"), minPrice));
             }
             if (maxPrice != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+                predicates.add(cb.lessThanOrEqualTo(root.get("pricePerDay"), maxPrice));
+            }
+            if (location != null && !location.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("location").get("city")), "%" + location.toLowerCase() + "%"));
+            }
+            if (transmission != null && !transmission.isEmpty()) {
+                predicates.add(cb.equal(cb.lower(root.get("transmission")), transmission.toLowerCase()));
+            }
+            if (seats != null) {
+                predicates.add(cb.equal(root.get("seats"), seats));
+            }
+            if (category != null && !category.isEmpty()) {
+                predicates.add(cb.like(cb.lower(root.get("carCategory").get("name")), "%" + category.toLowerCase() + "%"));
             }
             if (year != null) {
-                predicates.add(cb.equal(root.get("year"), year));
+                predicates.add(cb.equal(root.get("year"), year.toString()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));
