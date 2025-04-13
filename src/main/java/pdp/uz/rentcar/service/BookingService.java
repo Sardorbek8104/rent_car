@@ -15,7 +15,11 @@ import pdp.uz.rentcar.repository.LocationRepository;
 import pdp.uz.rentcar.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +29,6 @@ public class BookingService {
     private final UserRepository userRepository;
     private final LocationRepository locationRepository;
     private final ModelMapper modelMapper;
-
 
     public BookingResponse create(BookingCreateRequest request) {
         Booking booking = bookingRepository.save(toBooking(request));
@@ -37,6 +40,8 @@ public class BookingService {
         if (byId.isEmpty()) {
             throw new RecordNotFoundException("Car not found");
         }
+
+        double totalPrice = getTotalPrice(request.getStartTime(), request.getEndTime(), request.getCarId());
         Car car = byId.get();
         Booking booking = new Booking();
         booking.setCar(car);
@@ -44,10 +49,30 @@ public class BookingService {
         booking.setCreated(LocalDateTime.now());
         booking.setStartTime(request.getStartTime());
         booking.setEndTime(request.getEndTime());
-        booking.setTotalPrice(request.getTotalPrice());
+        booking.setTotalPrice(totalPrice);
         booking.setStatus(BookingStatus.PENDING);
-        booking.setPickupLocation(locationRepository.findById(car.getLocation().getId()).orElse(null));
-        booking.setDropOffLocation(locationRepository.findById(request.getDropOffLocationId()).orElse(null));
+        booking.setPickupLocation(List.of(Objects.requireNonNull(locationRepository.findById(car.getLocation().getId()).orElse(null))));
+        booking.setDropOffLocation(List.of(Objects.requireNonNull(locationRepository.findById(request.getDropOffLocationId()).orElse(null))));
         return booking;
     }
+
+    public double getTotalPrice(LocalDateTime startTime, LocalDateTime endTime, UUID carId) {
+        Car car = carRepository.findById(carId).orElseThrow(() -> new RecordNotFoundException("Car not found"));
+
+        if (startTime == null || endTime == null) {
+            throw new IllegalArgumentException("startTime, endTime, or carId cannot be null");
+        }
+
+        if (endTime.isBefore(startTime)) {
+            throw new IllegalArgumentException("End time cannot be before start time");
+        }
+
+        long days = ChronoUnit.DAYS.between(startTime.toLocalDate(), endTime.toLocalDate());
+        if (days == 0) {
+            days = 1;
+        }
+        return days * car.getPricePerDay();
+    }
+
+
 }
