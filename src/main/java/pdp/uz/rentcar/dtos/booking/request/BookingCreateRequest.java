@@ -14,6 +14,7 @@ public class BookingCreateRequest {
     private UUID userId;
     private UUID carId;
     private double totalPrice;
+    private UUID dropOffLocationId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 }

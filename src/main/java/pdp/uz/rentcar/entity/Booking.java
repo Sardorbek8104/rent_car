@@ -26,6 +26,10 @@ public class Booking {
     @ManyToOne
     private Car car;
     private double totalPrice;
+    @OneToOne
+    private Location pickupLocation;
+    @OneToOne
+    private Location dropOffLocation;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime created;
