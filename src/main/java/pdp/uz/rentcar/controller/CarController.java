@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pdp.uz.rentcar.dtos.car.request.CarCreateRequest;
@@ -22,7 +23,7 @@ import java.util.UUID;
 public class CarController {
     private final CarService carService;
     private final ObjectMapper objectMapper;
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CarCreateResponse createCar(@RequestParam("car") String carJson,
                                        @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -34,7 +35,7 @@ public class CarController {
             throw new RuntimeException("Xatolik: JSON parse bo‘lmadi!", e);
         }
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/car/{id}")
     public CarCreateResponse getCarById(@PathVariable UUID id) {
         return carService.getCarById(id);
@@ -44,7 +45,7 @@ public class CarController {
     public List<CarCreateResponse> getCars() {
         return carService.findAllCars();
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public void deleteCarById(@PathVariable UUID id) {
         carService.deleteCarById(id);

@@ -2,6 +2,7 @@ package pdp.uz.rentcar.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pdp.uz.rentcar.dtos.booking.request.BookingCreateRequest;
 import pdp.uz.rentcar.dtos.booking.response.BookingResponse;
@@ -16,12 +17,12 @@ import java.util.UUID;
 public class BookingController {
     private final BookingService bookingService;
 
-
+     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public BookingResponse create(@RequestBody BookingCreateRequest request) {
         return bookingService.create(request);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/calculate-price")
     public Double calculatePrice(@RequestParam UUID carId,
                                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startTime,
