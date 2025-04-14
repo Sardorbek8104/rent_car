@@ -7,6 +7,8 @@ import pdp.uz.rentcar.dtos.review.response.ReviewCreateResponse;
 import pdp.uz.rentcar.entity.Car;
 import pdp.uz.rentcar.entity.Review;
 import pdp.uz.rentcar.entity.User;
+import pdp.uz.rentcar.exception.RecordNotFoundException;
+import pdp.uz.rentcar.repository.BookingRepository;
 import pdp.uz.rentcar.repository.CarRepository;
 import pdp.uz.rentcar.repository.ReviewRepository;
 import pdp.uz.rentcar.repository.UserRepository;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
 
@@ -31,13 +34,17 @@ public class ReviewService {
         Car car = carRepository.findById(request.getCarId())
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
+        boolean booking = bookingRepository.existsBookingByUser_IdAndCar_Id(user.getId(), car.getId());
+        if (!booking){
+            throw new RecordNotFoundException("User and Car not found");
+        }
+
         Review review = new Review();
         review.setUser(user);
         review.setCar(car);
         review.setRating(request.getRating());
         review.setComment(request.getComment());
         review.setCreated(LocalDateTime.now());
-
         Review saved = reviewRepository.save(review);
         return convertToDto(saved);
     }

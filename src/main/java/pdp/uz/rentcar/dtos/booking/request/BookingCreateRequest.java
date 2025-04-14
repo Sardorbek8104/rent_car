@@ -11,9 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 public class BookingCreateRequest {
-    private UUID userId;
-    private UUID carId;
-    private double totalPrice;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+        private UUID userId;
+        private UUID carId;
+        private UUID dropOffLocationId;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
 }

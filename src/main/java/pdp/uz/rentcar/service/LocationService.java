@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class LocationService {
+
     private final LocationRepository locationRepository;
 
-
-    public LocationCreateResponse create(LocationCreateRequest request) {
+    public LocationCreateResponse add(LocationCreateRequest request) {
         Location location = new Location();
         location.setCity(request.getLocation());
         locationRepository.save(location);
@@ -55,4 +55,6 @@ public class LocationService {
         List<Location> locations = locationRepository.findAll();
         return locations.stream().map(location -> new LocationResponse(location.getId(), location.getCity())).collect(Collectors.toList());
     }
+
+
 }

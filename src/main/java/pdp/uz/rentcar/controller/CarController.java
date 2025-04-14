@@ -1,12 +1,10 @@
 package pdp.uz.rentcar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pdp.uz.rentcar.dtos.car.request.CarCreateRequest;
@@ -23,6 +21,7 @@ public class CarController {
     private final CarService carService;
     private final ObjectMapper objectMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CarCreateResponse createCar(@RequestParam("car") String carJson,
                                        @RequestParam(value = "file", required = false) MultipartFile file) {
@@ -31,10 +30,11 @@ public class CarController {
             carRequest.setFile(file);
             return carService.createCar(carRequest);
         } catch (Exception e) {
-            throw new RuntimeException("Xatolik: JSON parse bo‘lmadi!", e);
+            throw new RuntimeException("ERROR: JSON parse bolmadi!", e);
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/car/{id}")
     public CarCreateResponse getCarById(@PathVariable UUID id) {
         return carService.getCarById(id);
@@ -45,20 +45,26 @@ public class CarController {
         return carService.findAllCars();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/delete/{id}")
     public void deleteCarById(@PathVariable UUID id) {
         carService.deleteCarById(id);
     }
 
-
     @GetMapping("/search")
     public ResponseEntity<List<CarCreateResponse>> searchCars(
             @RequestParam(required = false) String model,
+            @RequestParam(required = false) String name,
             @RequestParam(required = false) Double minPrice,
             @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String transmission,
+            @RequestParam(required = false) Integer seats,
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) Integer year
     ) {
-        List<CarCreateResponse> result = carService.searchCars(model, minPrice, maxPrice, year);
+        List<CarCreateResponse> result = carService.searchCars(
+                model, name, minPrice, maxPrice, location, transmission, seats, category, year);
         return ResponseEntity.ok(result);
     }
 
