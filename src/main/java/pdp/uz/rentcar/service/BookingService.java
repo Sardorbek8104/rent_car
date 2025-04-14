@@ -17,8 +17,8 @@ public class BookingService {
     private final UserRepository userRepository;
 
 
-    public BookingResponse create(BookingCreateRequest request) {
-        Booking booking = new Booking();
-        booking.setStatus(BS);
-    }
+//    public BookingResponse create(BookingCreateRequest request) {
+//        Booking booking = new Booking();
+//        booking.setStatus(BS);
+//    }
 }
