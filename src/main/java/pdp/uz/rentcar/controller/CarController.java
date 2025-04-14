@@ -14,6 +14,7 @@ import pdp.uz.rentcar.dtos.car.request.CarCreateRequest;
 import pdp.uz.rentcar.dtos.car.response.CarCreateResponse;
 import pdp.uz.rentcar.service.CarService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,19 +23,13 @@ import java.util.UUID;
 @RequestMapping("api/v1/cars")
 public class CarController {
     private final CarService carService;
-    private final ObjectMapper objectMapper;
+
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public CarCreateResponse createCar(@RequestParam("car") String carJson,
-                                       @RequestParam(value = "file", required = false) MultipartFile file) {
-        try {
-            CarCreateRequest carRequest = objectMapper.readValue(carJson, CarCreateRequest.class);
-            carRequest.setFile(file);
-            return carService.createCar(carRequest);
-        } catch (Exception e) {
-            throw new RuntimeException("Xatolik: JSON parse bo‘lmadi!", e);
-        }
+     @PostMapping("/add")
+    public CarCreateResponse createCar(@RequestBody CarCreateRequest carCreateRequest) throws IOException {
+         return carService.createCar(carCreateRequest);
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/car/{id}")
     public CarCreateResponse getCarById(@PathVariable UUID id) {

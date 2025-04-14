@@ -26,7 +26,6 @@ public class CarService {
     private final CarRepository carRepository;
     private final CarCategoryRepository carCategoryRepository;
     private final AttachmentRepository attachmentRepository;
-    private final AttachmentContentRepository attachmentContentRepository;
     private final LocationRepository locationRepository;
     private final ModelMapper modelMapper;
 
@@ -40,6 +39,8 @@ public class CarService {
         if (optionalLocation.isEmpty()) {
             throw new RecordNotFoundException("Location Not Found");
         }
+        CarAttachment carAttachment = attachmentRepository.findById(carRequest.getAttachmentId()).orElseThrow(() -> new RecordNotFoundException("Attachment Not Found"));
+
         Location location = optionalLocation.get();
         Car car = Car.builder()
                 .carNumber(carRequest.getCarNumber())
@@ -53,23 +54,10 @@ public class CarService {
                 .transmission(carRequest.getTransmission())
                 .name(carRequest.getName())
                 .location(location)
+                .attachment(carAttachment)
                 .build();
-
         car.setStatus(CarStatus.AVAILABLE);
-        MultipartFile file = carRequest.getFile();
-        if (file != null) {
-            CarAttachmentContent attachmentContent = new CarAttachmentContent();
-            attachmentContent.setContent(file.getBytes());
-            attachmentContentRepository.save(attachmentContent);
-            CarAttachment attachment = new CarAttachment();
-            attachment.setContent(attachmentContent);
-            attachment.setFilename(file.getOriginalFilename());
-            attachment.setFileType(file.getContentType());
-            attachment.setContent(attachmentContent);
-            attachment.setFileSize(file.getSize());
-            car.setAttachment(attachment);
-            attachmentRepository.save(attachment);
-        }
+
         Car save = carRepository.save(car);
 
         return convertToDto(save);
@@ -140,9 +128,9 @@ public class CarService {
                 .model(save.getModel())
                 .carNumber(save.getCarNumber())
                 .status(save.getStatus())
-                .build();
+               .locationId(save.getLocation().getId())
+               .build();
     }
-
 
     public void deleteCarById(UUID id) {
         carRepository.deleteById(id);

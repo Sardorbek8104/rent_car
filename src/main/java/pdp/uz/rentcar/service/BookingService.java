@@ -37,6 +37,7 @@ public class BookingService {
 
     private Booking toBooking(BookingCreateRequest request) {
         Optional<Car> byId = carRepository.findById(request.getCarId());
+
         if (byId.isEmpty()) {
             throw new RecordNotFoundException("Car not found");
         }
@@ -72,6 +73,15 @@ public class BookingService {
             days = 1;
         }
         return days * car.getPricePerDay();
+    }
+
+    public List<BookingResponse> getAllBookings() {
+        List<Booking> bookings = bookingRepository.findAll();
+        return modelMapper.map(bookings, List.class);
+    }
+
+    public void deleteBooking(UUID bookingId) {
+        bookingRepository.deleteById(bookingId);
     }
 
 

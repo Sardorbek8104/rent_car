@@ -24,6 +24,7 @@ public class SecurityConfig {
             "/api/v1/auth/**",
             "/api/v1/car-category/list",
             "/api/v1/location/locations",
+            "/api/v1/location/create",
             "/api/v1/reviews/list",
             "/api/v1/reviews/car/**",
             "/api/v1/cars/list",
