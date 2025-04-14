@@ -22,5 +22,5 @@ public class CarCreateRequest {
     private double pricePerDay;
     private UUID carCategoryId;
     private UUID locationId;
-    private MultipartFile file;
+    private UUID attachmentId;
 }

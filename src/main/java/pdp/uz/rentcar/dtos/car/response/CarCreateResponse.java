@@ -27,4 +27,5 @@ public class CarCreateResponse {
     private String carCategoryName;
     private UUID attachmentId;
     private CarStatus status;
+    private UUID locationId;
 }
